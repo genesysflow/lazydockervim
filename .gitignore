@@ -1,0 +1,9 @@
+# Ignore nvim config (cloned at runtime)
+config/nvim/
+
+# Ignore any project files
+projects/
+
+# OS files
+.DS_Store
+Thumbs.db

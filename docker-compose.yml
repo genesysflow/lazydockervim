@@ -1,0 +1,9 @@
+services:
+  lazyvim:
+    build: .
+    volumes:
+      - .:/workspace
+      - ./config/nvim:/home/developer/.config/nvim
+    tty: true
+    stdin_open: true
+    user: developer
