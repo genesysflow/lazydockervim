@@ -4,6 +4,17 @@ A Docker-based development environment pre-configured with **LazyVim**, **Go**, 
 
 ## Quick Start
 
+Using the pre-built image (no build required):
+
+```bash
+docker run -it --rm \
+  -v "$(pwd)":/workspace \
+  -v "$(pwd)/config/nvim":/home/developer/.config/nvim \
+  ghcr.io/genesysflow/lazydockervim:latest
+```
+
+Or clone and build locally:
+
 ```bash
 git clone https://github.com/genesysflow/lazydockervim.git
 cd lazydockervim
@@ -18,25 +29,25 @@ docker compose run --rm lazyvim
 
 ## Usage
 
-### Build the image
+### Build the image locally
 
 ```bash
 docker compose build
 ```
 
-### 2. Run the environment
+### Run the environment
 
 ```bash
 docker compose run --rm lazyvim
 ```
 
-### Alternative: Run without Docker Compose
+### Run without Docker Compose (using pre-built image)
 
 ```bash
 docker run -it --rm \
   -v "$(pwd)":/workspace \
   -v "$(pwd)/config/nvim":/home/developer/.config/nvim \
-  lazydockervim-lazyvim
+  ghcr.io/genesysflow/lazydockervim:latest
 ```
 
 This will drop you into a `zsh` shell inside the container. From there, you can start Neovim:
