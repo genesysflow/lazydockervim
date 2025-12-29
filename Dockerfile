@@ -19,6 +19,7 @@ RUN apt-get update && apt-get install -y \
     python3-pip \
     python3-venv \
     golang-go \
+    gh \
     locales \
     sudo \
     zsh-autosuggestions \
