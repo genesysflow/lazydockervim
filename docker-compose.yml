@@ -3,7 +3,7 @@ services:
     build: .
     volumes:
       - .:/workspace
-      - ./config/nvim:/home/developer/.config/nvim
+      - ./.developer-home:/home/developer
     tty: true
     stdin_open: true
     user: developer

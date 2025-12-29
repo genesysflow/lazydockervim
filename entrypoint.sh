@@ -1,25 +1,28 @@
 #!/bin/bash
 
-# Fix permissions on .config directory if needed
-if [ -d "$HOME/.config" ] && [ ! -w "$HOME/.config" ]; then
-    echo "Fixing permissions on $HOME/.config..."
-    sudo chown -R developer:developer "$HOME/.config"
+# Fix ownership of entire home directory (needed for bind mounts)
+if [ -d "$HOME" ] && [ "$(stat -c '%u' "$HOME")" != "$(id -u)" ]; then
+    echo "Fixing permissions on $HOME..."
+    sudo chown -R developer:developer "$HOME"
 fi
 
-# Ensure .config exists
-mkdir -p "$HOME/.config"
+# Ensure essential directories exist
+mkdir -p "$HOME/.config" "$HOME/.local/share" "$HOME/.local/state" "$HOME/.cache" "$HOME/projects"
+
+# Initialize zsh config if it doesn't exist
+if [ ! -f "$HOME/.zshrc" ]; then
+    echo "Initializing zsh configuration..."
+    echo 'eval "$(starship init zsh)"' >> "$HOME/.zshrc"
+    echo 'source /usr/share/zsh-autosuggestions/zsh-autosuggestions.zsh' >> "$HOME/.zshrc"
+    echo 'source /usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh' >> "$HOME/.zshrc"
+    echo 'export PATH=$PATH:$HOME/go/bin' >> "$HOME/.zshrc"
+fi
 
 CONFIG_DIR="$HOME/.config/nvim"
 
 # Clone LazyVim starter if config doesn't exist
 if [ ! -f "$CONFIG_DIR/init.lua" ]; then
     echo "LazyVim config not found, cloning starter..."
-    
-    # Fix permissions if directory exists but is not writable
-    if [ -d "$CONFIG_DIR" ] && [ ! -w "$CONFIG_DIR" ]; then
-        sudo chown -R developer:developer "$CONFIG_DIR"
-    fi
-    
     rm -rf "$CONFIG_DIR"
     git clone https://github.com/LazyVim/starter "$CONFIG_DIR"
     rm -rf "$CONFIG_DIR/.git"

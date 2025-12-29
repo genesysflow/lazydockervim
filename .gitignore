@@ -1,6 +1,9 @@
 # Ignore nvim config (cloned at runtime)
 config/nvim/
 
+# Persistent developer home directory
+.developer-home/
+
 # Ignore any project files
 projects/
 

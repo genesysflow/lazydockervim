@@ -9,7 +9,7 @@ Using the pre-built image (no build required):
 ```bash
 docker run -it --rm \
   -v "$(pwd)":/workspace \
-  -v "$(pwd)/config/nvim":/home/developer/.config/nvim \
+  -v "$(pwd)"/.developer-home:/home/developer \
   ghcr.io/genesysflow/lazydockervim:latest
 ```
 
@@ -46,7 +46,7 @@ docker compose run --rm lazyvim
 ```bash
 docker run -it --rm \
   -v "$(pwd)":/workspace \
-  -v "$(pwd)/config/nvim":/home/developer/.config/nvim \
+  -v "$(pwd)"/.developer-home:/home/developer \
   ghcr.io/genesysflow/lazydockervim:latest
 ```
 
@@ -63,16 +63,15 @@ nvim
   - Go (latest from apt/standard)
   - Node.js (Latest LTS)
   - Python 3
-- **Tools**: `git`, `ripgrep`, `fd`, `tmux`, `zsh` + `starship` prompt.
+- **Tools**: `git`, `ripgrep`, `btop`, `gh`, `fd`, `tmux`, `zsh` + `starship` prompt.
 
-## Customization
+## Persistence
 
-The `Dockerfile` creates a user named `developer`.
-The current directory is mounted to `/workspace` inside the container.
+The entire `/home/developer` directory is persisted in a Docker volume, including:
+- Neovim plugins and state
+- Shell history
+- Go modules cache
+- npm cache
+- Any tools or configs you install
 
-### Persistent Configuration
-
-LazyVim configuration is stored in `./config/nvim/` and mounted into the container.
-Any changes you make to your Neovim/LazyVim configuration will persist between container runs.
-
-To customize LazyVim, edit files in `./config/nvim/lua/` (e.g., `plugins/`, `config/`).
+Changes persist across container restarts automatically.
